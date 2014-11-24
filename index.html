@@ -1,184 +1,26 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="content-type" content="text/html" charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
-	<title>Web App | Fed 2</title>
-	
-	<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-	<!-- static assets -->
-	<link rel="stylesheet" type="text/css" href="dest/css/style.css" media="screen, handheld" />
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        
+        <script type="text/javascript" src="js/swfobject.js"></script>
+        <title>Youtube SDK</title>
 
-</head>
-<body>
+    </head>
+    <body>
+        
+        <div id="ytapiplayer">
+            You need Flash player 8+ and JavaScript enabled to view this video.
+        </div>
 
-	<div id="loader" class="loader loader--isactive">
-		<div class="loader__content">
-			<p><i class="fa fa-refresh fa-spin"></i> Loading...</p>
-		</div>
-	</div>
+        <script type="text/javascript">
 
-	<div class="wrapper">
-		<header id="header" class="header">
-			<nav class="global-nav">
-				<ul id="global-nav" class="global-nav__ul">
-					<li class="list--home"><a title="home" href="#home"><i class="fa fa-home"></i></a></li>
-					<li class="list--about"><a title="about" href="#about">About</a></li>
-				</ul>
-			</nav>
-		</header>
-		<section class="content" id="fed-app"></section>
-	</div>
+            var params = { allowScriptAccess: "always" };
+            var atts = { id: "myytplayer" };
+            swfobject.embedSWF("http://www.youtube.com/v/VIDEO_ID?enablejsapi=1&playerapiid=ytplayer&version=3",
+                               "ytapiplayer", "425", "356", "8", null, null, params, atts);
+        </script>
 
-	<footer class="footer">
-		<div class="footer__content">
-			<p>Front-end 2 - Webapplication</p>
-		</div>
-	</footer>
-
-	<!-- Templates  -->
-	<script id="template-main" type="text/x-handlebars-template">
-		<div class="main">
-			<div class="main__nav">
-  				<ul id="main-nav" class="main__nav-ul">
-  					<li class="list--event"><a title="Evenementen" href="#main/event">Evenementen</a></li>
-  					<li class="list--venue"><a title="Venues" href="#main/venue">Venues</a></li>
-  					<li class="list--production"><a title="Producties" href="#main/production">Producties</a></li>
-  				</ul>
-  			</div>
-  			<div id="main-content" class="main__content"></div>
-		</div>
-	</script>
-
-	<script id="template-home" type="text/x-handlebars-home">
-		<div id="home-view" class="home">
-			<h1>Hi!</h1>
-			<p>Selecteer een categorie...</p>
-		</div>
-	</script>
-
-	<script id="template-list" type="text/x-handlebars-template">
-  		<div id="list-view">
-  			<div class="main__filter">
-  				<div class="main__filter-left">
-	  				<div class="form">
-	  					<label class="form__label" for="form__event-locality">In de buurt van</label>
-	  					<div class="form__input-holder">
-	  						<input id="form-input-locality" name="form-input-locality" class="form__input" type="text" placeholder="Bijv. Amsterdam">
-	  					</div>
-	  					<a class="form__submit-btn" id="form-btn-submit" href="javascipt:void(0);" title="Submit"><i class="fa fa-search"></i></a>
-	  				</div>
-  				</div>
-  				<div class="main__filter-right">
-  					<div class="main__nav-plain main__nav-right">
-  						<p><i class="fa fa-file"></i> {{metadata.page}} | <i class="fa fa-th"></i> {{metadata.per_page}}</p>
-  					</div>
-  				</div>
-  			</div>
-
-  			<div class="main__list">
-  				<div class="main__list-inner">
-		  			{{#each results}}
-		  				<div class="main__list-item main__list-item--small">
-		  					<div class="item">
-			  					<div class="item__header">
-			  						<a href="#main/{{listType}}/detail/{{cidn}}"><h1>{{title}}</h1></a>
-			  					</div>
-			  					<div class="item__content">
-			  						<div class="item__date"><i class="fa fa-clock-o"></i> {{created}}</div>
-			  						<div class="item__desc">
-			  							{{shortDescription}}
-			  						</div>
-			  						<div class="item__content-other">
-			  							{{otherContent}}
-			  						</div>
-							  	</div>
-							  	<div class="item__func">
-							  		<div class="item__func-left"></div>
-							  		<div class="item__func-right"><i class="fa fa-angle-down"></i></div>
-							  	</div>
-						  	</div>
-					  	</div>
-					{{/each}}
-				</div>
-			</div>
-  		</div>
-	</script>
-
-	<script id="template-detail" type="text/x-handlebars-template">
-		<div class="main">
-			<div class="main__nav">
-  				<ul class="main__nav-ul">
-  					<li><a title="{{listType}}" href="#main/{{listType}}"><i class="fa fa-reply"></i> Terug - {{listType}}</a></li>
-  					<li><span class="main__nav-link">Cidn: {{cidn}}</span></li>
-  				</ul>
-	  		</div>
-
-	  		<div class="main__content">
-	  			<div class="main__content-inner">
-	  				<div class="main__content-item main__content-item--large">
-						<h1>Title: {{title}}</h1>
-						<ul>
-							<li>attatchment: {{attatchment}}</li>
-							<li>cidn: {{cidn}}</li>
-							<li>description: {{description}}</li>
-							<li>eventStatus: {{eventStatus}}</li>
-							<li>hasBeginning: {{hasBeginning}}</li>
-							<li>hasEnd: {{hasEnd}}</li>
-							<li>modified: {{modified}}</li>
-							<li>offer: {{offers}}</li>
-							<li>productions: {{productions}}</li>
-							<li>sameAs: {{sameAs}}</li>
-							<li>type: {{type}}</li>
-							<li>uri: {{uri}}</li>
-							<li>venue: {{venue}}</li>
-						</ul>
-						<div>
-							<ul>
-								<li><a target="_blank" href="http://api.artsholland.com/rest/event/{{cidn}}/venue.json">Venues in which event {{cidn}} takes place</a></li>
-								<li><a target="_blank" href="http://api.artsholland.com/rest/event/{{cidn}}/production.json">Productions associated with the event {{cidn}}</a></li>
-								<li><a target="_blank" href="http://api.artsholland.com/rest/event/{{cidn}}/room.json">Rooms in which event {{cidn}} takes place</a></li>
-								<li><a target="_blank" href="http://api.artsholland.com/rest/event/{{cidn}}/attatchment.json">Attatchments associated with event {{cidn}}</a></li>
-								<li><a target="_blank" href="http://api.artsholland.com/rest/event/{{cidn}}/offering.json">Offers available for event {{cidn}}</a></li>
-								<li><a target="_blank" href="http://api.artsholland.com/rest/event/{{cidn}}/offering/offering-name/price.json">Price specification of offer [name]</a></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</script>
-
-	<script id="template-about" type="text/x-handlebars-template">
-		<section class="about">
-			<header>
-				<h1>About this app</h1>
-
-				<p>Cities fall but they are rebuilt. heroes die but they are remembered. the man likes to play chess; let's get him some rocks. circumstances have taught me that a man's ethics are the only possessions he will take beyond the grave. multiply your anger by about a hundred, kate, that's how much he thinks he loves you. bruce... i'm god. multiply your anger by about a hundred, kate, that's how much he thinks he loves you. no, this is mount everest. you should flip on the discovery channel from time to time. but i guess you can't now, being dead and all. rehabilitated? well, now let me see. you know, i don't have any idea what that means. mister wayne, if you don't want to tell me exactly what you're doing, when i'm asked, i don't have to lie. but don't think of me as an idiot. rehabilitated? well, now let me see. you know, i don't have any idea what that means. cities fall but they are rebuilt. heroes die but they are remembered. no, this is mount everest. you should flip on the discovery channel from time to time. but i guess you can't now, being dead and all.</p>
-				<p>I did the same thing to gandhi, he didn't eat for three weeks. bruce... i'm god. cities fall but they are rebuilt. heroes die but they are remembered. i once heard a wise man say there are no perfect men. only perfect intentions. cities fall but they are rebuilt. heroes die but they are remembered. boxing is about respect. getting it for yourself, and taking it away from the other guy. well, what is it today? more spelunking? let me tell you something my friend. hope is a dangerous thing. hope can drive a man insane. bruce... i'm god. well, what is it today? more spelunking? it only took me six days. same time it took the lord to make the world. i did the same thing to gandhi, he didn't eat for three weeks.</p>
-				<p>Let me tell you something my friend. hope is a dangerous thing. hope can drive a man insane. boxing is about respect. getting it for yourself, and taking it away from the other guy. mister wayne, if you don't want to tell me exactly what you're doing, when i'm asked, i don't have to lie. but don't think of me as an idiot. you measure yourself by the people who measure themselves by you. circumstances have taught me that a man's ethics are the only possessions he will take beyond the grave. circumstances have taught me that a man's ethics are the only possessions he will take beyond the grave. you measure yourself by the people who measure themselves by you. you measure yourself by the people who measure themselves by you. that tall drink of water with the silver spoon up his ass. i once heard a wise man say there are no perfect men. only perfect intentions. mister wayne, if you don't want to tell me exactly what you're doing, when i'm asked, i don't have to lie. but don't think of me as an idiot. boxing is about respect. getting it for yourself, and taking it away from the other guy.</p>
-				<p>That tall drink of water with the silver spoon up his ass. well, what is it today? more spelunking? i now issue a new commandment: thou shalt do the dance. let me tell you something my friend. hope is a dangerous thing. hope can drive a man insane. i did the same thing to gandhi, he didn't eat for three weeks. the man likes to play chess; let's get him some rocks. i now issue a new commandment: thou shalt do the dance. i now issue a new commandment: thou shalt do the dance. multiply your anger by about a hundred, kate, that's how much he thinks he loves you. i don't think they tried to market it to the billionaire, spelunking, base-jumping crowd. that tall drink of water with the silver spoon up his ass. it only took me six days. same time it took the lord to make the world. </p>
-			</header>
-		</section>
-	</script>
-
-	<script id="template-404" type="text/x-handlebars-template">
-		<section class="page-404">
-			<h1>404 Pagina niet gevonden</h1>
-		</section>
-	</script>
-	
-	<!-- Javascipt -->
-	<script src="dest/js/lib.min.js"></script>
-	<script src="dest/js/app.js"></script>
-	<script>
-
-		(function(){
-			FedApp.App.init();
-		})();
-
-	</script>
-</body>
+    </body>
 </html>
