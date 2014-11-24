@@ -23,8 +23,14 @@
 
             function onYouTubePlayerReady(playerId) {
                 console.log("Ready: " + playerId);
-                ytplayer = document.getElementById("myytplayer");
+                var ytplayer = document.getElementById("myytplayer");
+                    ytplayer.addEventListener("onStateChange", "onStateChangeHandler");
             }
+
+            function onStateChange(e) {
+                console.log("onStateChange: " + e);
+            }
+
         </script>
 
     </body>
