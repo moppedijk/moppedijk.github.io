@@ -20,6 +20,11 @@
             var atts = { id: "myytplayer" };
             swfobject.embedSWF("https://www.youtube.com/v/IHSIqsxW_9s?enablejsapi=1&playerapiid=ytplayer&version=3",
                                "ytapiplayer", "425", "356", "8", null, null, params, atts);
+
+            function onYouTubePlayerReady(playerId) {
+                console.log("Ready: " + playerId);
+                ytplayer = document.getElementById("myytplayer");
+            }
         </script>
 
     </body>
